@@ -1,0 +1,100 @@
+@charset "UTF-8";
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
+            margin: 0;
+            padding: 0;
+        }
+        .tree-container {
+            width: 280px;
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 2px 0 6px rgba(0,0,0,0.15);
+            position: fixed;   /* stick to left */
+            top: 0;
+            left: 0;
+            height: 100vh;     /* full height */
+            overflow-y: auto;  /* scroll if content is long */
+        }
+        h3 {
+            color: #0078d7;
+            margin-bottom: 15px;
+            text-align: left; /* align heading left */
+        }
+        ul.tree, ul.tree ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        ul.tree ul {
+            margin-left: 25px;
+            position: relative;
+            padding-left: 20px;
+        }
+        /* vertical line */
+        ul.tree ul:before {
+            content: "";
+            border-left: 2px dashed #0078d7;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+        }
+        ul.tree li {
+            margin: 10px 0;
+            position: relative;
+            padding-left: 25px;
+            transition: all 0.3s ease;
+        }
+        /* horizontal line */
+        ul.tree li:before {
+            content: "";
+            position: absolute;
+            top: 14px;
+            left: 0;
+            width: 20px;
+            border-top: 2px dashed #0078d7;
+        }
+        .toggle {
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 8px;
+            color: #0078d7;
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+        .toggle:hover { transform: scale(1.2); }
+        .topic {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: #f0f8ff;
+            transition: all 0.3s ease;
+        }
+        .topic:hover {
+            background: #0078d7;
+            color: #fff;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        }
+        .hidden { display: none; }
+        .badge {
+            background: #ff9800;
+            color: #fff;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 12px;
+            margin-left: 8px;
+        }
+        /* main content area shifted right */
+        .main-content {
+            margin-left: 300px;
+            padding: 20px;
+        }
+        
+        
+        .content-area { margin-left: 270px; padding: 20px; border: 1px solid #ccc; min-height: 400px; }
+        

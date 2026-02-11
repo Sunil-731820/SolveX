@@ -1,0 +1,362 @@
+Error While I am getting for this project is : 
+
+This application has no explicit mapping for /error, so you are seeing this as a fallback.
+
+Mon Dec 29 11:05:29 IST 2025
+There was an unexpected error (type=Method Not Allowed, status=405).
+Method 'POST' is not supported.
+org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' is not supported
+	at org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.handleNoMatch(RequestMappingInfoHandlerMapping.java:260)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.lookupHandlerMethod(AbstractHandlerMethodMapping.java:434)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.getHandlerInternal(AbstractHandlerMethodMapping.java:376)
+	at org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.getHandlerInternal(RequestMappingInfoHandlerMapping.java:116)
+	at org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.getHandlerInternal(RequestMappingInfoHandlerMapping.java:68)
+	at org.springframework.web.servlet.handler.AbstractHandlerMapping.getHandler(AbstractHandlerMapping.java:543)
+	at org.springframework.web.servlet.DispatcherServlet.getHandler(DispatcherServlet.java:1157)
+	
+	
+	
+And Second Error : 
+
+This application has no explicit mapping for /error, so you are seeing this as a fallback.
+
+Mon Dec 29 11:16:55 IST 2025
+There was an unexpected error (type=Method Not Allowed, status=405).
+Method 'GET' is not supported.
+org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported
+	at org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.handleNoMatch(RequestMappingInfoHandlerMapping.java:260)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.lookupHandlerMethod(AbstractHandlerMethodMapping.java:434)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.getHandlerInternal(AbstractHandlerMethodMapping.java:376)
+	at org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.getHandlerInternal(RequestMappingInfoHandlerMapping.java:116)
+	at org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.getHandlerInternal(RequestMappingInfoHandlerMapping.java:68)
+	at org.springframework.web.servlet.handler.AbstractHandlerMapping.getHandler(AbstractHandlerMapping.java:543)	
+
+
+
+And third Error is : 
+
+This application has no explicit mapping for /error, so you are seeing this as a fallback.
+
+Mon Dec 29 11:32:33 IST 2025
+There was an unexpected error (type=Method Not Allowed, status=405).
+Method 'GET' is not supported.
+org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported
+	at org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.handleNoMatch(RequestMappingInfoHandlerMapping.java:260)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.lookupHandlerMethod(AbstractHandlerMethodMapping.java:434)
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.getHandlerInternal(AbstractHandlerMethodMapping.java:376)
+	at org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.getHandlerInternal(RequestMappingInfoHandlerMapping.java:116)
+	at org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.getHandlerInternal(RequestMappingInfoHandlerMapping.java:68)
+	at org.springframework.web.servlet.handler.AbstractHandlerMapping.getHandler(AbstractHandlerMapping.java:543)	
+	
+	
+And Fourth Error is : 
+
+This application has no explicit mapping for /error, so you are seeing this as a fallback.
+
+Mon Dec 29 22:59:37 IST 2025
+There was an unexpected error (type=Internal Server Error, status=500).
+Query did not return a unique result: 2 results were returned
+org.springframework.dao.IncorrectResultSizeDataAccessException: Query did not return a unique result: 2 results were returned
+	at org.springframework.orm.jpa.hibernate.HibernateExceptionTranslator.convertHibernateAccessException(HibernateExceptionTranslator.java:180)
+	at org.springframework.orm.jpa.hibernate.HibernateExceptionTranslator.convertHibernateAccessException(HibernateExceptionTranslator.java:131)
+	at org.springframework.orm.jpa.hibernate.HibernateExceptionTranslator.translateExceptionIfPossible(HibernateExceptionTranslator.java:109)
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:199)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.translateExceptionIfPossible(AbstractEntityManagerFactoryBean.java:556)
+	at org.springframework.dao.support.ChainedPersistenceExceptionTranslator.translateExceptionIfPossible(ChainedPersistenceExceptionTranslator.java:61)
+	at org.springframework.dao.support.DataAccessUtils.translateIfNecessary(DataAccessUtils.java:346)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:157)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	
+	
+for Fourth Error : 
+
+SELECT email, COUNT(*) 
+FROM users 
+GROUP BY email 
+HAVING COUNT(*) > 1;
+
+
+-- Example: keep one, delete others
+DELETE FROM users
+WHERE id NOT IN (SELECT MIN(id) FROM users GROUP BY email);
+
+
+SELECT user_id, COUNT(*) 
+FROM verification_tokens 
+GROUP BY user_id 
+HAVING COUNT(*) > 1;
+
+
+DELETE FROM verification_tokens
+WHERE id NOT IN (
+    SELECT MAX(id) FROM verification_tokens GROUP BY user_id
+);
+
+Ensure Unique Constraints in DB
+
+ALTER TABLE users ADD CONSTRAINT uc_email UNIQUE(email);
+
+ALTER TABLE verification_tokens 
+ADD CONSTRAINT uc_user_token UNIQUE(user_id);
+
+	
+	
+	
+UserN ame : infinitehealthsure@gmail.com
+Password is : xrascqydsfthxttk
+
+
+Database Schema : 
+
+CREATE TABLE users (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    password VARCHAR(255),
+    enabled BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE otp_details (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(100),
+    otp VARCHAR(6),
+    expiry_time TIMESTAMP,
+    verified BOOLEAN DEFAULT FALSE
+);
+
+
+New features After user Sign Up is Completed :
+
+1 : Email Verification – Complete Implementation
+
+User signs up
+User is saved as DISABLED / NOT VERIFIED
+System generates a verification token
+Email is sent with a verification link
+User clicks link
+
+New Tables for Above new Features Implementation
+verification_tokens Table (New)
+
+CREATE TABLE verification_tokens (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+
+    token VARCHAR(255) NOT NULL UNIQUE,
+
+    user_id BIGINT NOT NULL,
+
+    expiry_time TIMESTAMP NOT NULL,
+
+    CONSTRAINT fk_verification_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE
+);
+
+ALTER TABLE users
+ADD COLUMN enabled BOOLEAN DEFAULT FALSE;
+
+
+
+Account Security Features
+Feature	Description / Benefit
+Account Lockout on Failed Attempts	Lock user after 3-5 failed login attempts. Prevents brute-force attacks.
+Two-Factor Authentication (2FA)	Add extra OTP sent via email or SMS during login.
+Session Management	Limit concurrent sessions, auto-logout inactive sessions.
+Password Strength Validation	Force users to use strong passwords.
+
+
+2️ : User Experience / Convenience Features
+Feature	Description
+Remember Me / Stay Logged In	Keep user logged in via cookie for X days.
+Resend Verification Email / Token Expiry Notification	Already partially done; can automate reminders.
+Profile Management	Users can update name, password, email.
+Email Change Verification	Verify any email change with new token.
+
+
+New Features :  Add failed login attempt tracking and account lock
+
+Database Changes
+
+You need to update your users table to include:
+failed_attempts → number of consecutive failed login attempts
+account_locked → whether the account is locked
+lock_time → when the account was locked (optional, for auto-unlock)
+
+
+
+
+Next Step : 
+
+LDAP Server for Passowrd Storage 
+
+Problem Feed / Dashboard
+
+Show:
+
+Total problems count
+Solved problems
+Attempted problems
+Acceptance rate
+
+
+2. Problem List
+
+Show:
+Problem title
+Difficulty (Easy / Medium / Hard)
+Tags (Array, DP, String)
+Status (Solved / Attempted / Not Tried)
+
+3. Problem Solving Page
+
+When user clicks a problem:
+Problem description
+Input / Output examples
+Constraints
+Code editor (language selection)
+
+4. Code Submission
+Allow users to:
+Write code
+Submit solution
+See result (Accepted / Wrong Answer / TLE)
+
+Engagement Features (Keeps Users Coming Back)
+ 5. Daily Challenge
+One problem per day
+Badge or streak count
+
+6. Progress Tracking
+Show:
+Problems solved by difficulty
+Weekly / monthly progress graph
+
+7. Favorite / Bookmark Problems
+Save problems for later
+Personalized practice list
+
+8 Leaderboard
+Rank users by:
+Problems solved
+Points
+Streaks
+
+9. Contests
+Timed contests
+Rank after contest ends
+Learning-Focused Features
+
+
+10. Solution Explanations
+Official solution
+User-submitted solutions
+Time & space complexity
+
+11. Discussion Forum
+Comment under each problem
+Ask doubts
+Share approaches
+
+14. Skill Tree / Roadmaps
+Arrays → Strings → DP → Graphs
+Unlock levels after solving X problems
+
+
+Recommended Feature Implementation Order
+Phase 1 (Now – Beginner)
+
+Problem list
+
+Problem details page
+
+Code submission (mock or basic judge)
+
+Track solved / attempted problems
+
+Phase 2 (Intermediate)
+
+User progress dashboard
+
+Daily challenge
+
+Favorites / bookmarks
+
+Leaderboard
+
+Phase 3 (Advanced)
+
+Contest system
+
+Discussion forum
+
+Real code judge (Docker)
+
+Recommendations
+
+
+New Features of The Home Page Started here 
+
+problems Table
+
+Stores all coding problems.
+CREATE TABLE problems (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    slug VARCHAR(255) UNIQUE NOT NULL,
+    description TEXT NOT NULL,
+    difficulty ENUM('EASY','MEDIUM','HARD') NOT NULL,
+    constraints TEXT,
+    example_input TEXT,
+    example_output TEXT,
+    acceptance_rate DECIMAL(5,2) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+tags Table (Problem Categories)
+CREATE TABLE tags (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) UNIQUE NOT NULL
+);
+
+problem_tags (Many-to-Many)
+CREATE TABLE problem_tags (
+    problem_id BIGINT,
+    tag_id BIGINT,
+    PRIMARY KEY (problem_id, tag_id),
+    FOREIGN KEY (problem_id) REFERENCES problems(id),
+    FOREIGN KEY (tag_id) REFERENCES tags(id)
+);
+
+submissions Table
+CREATE TABLE submissions (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    problem_id BIGINT NOT NULL,
+    code TEXT NOT NULL,
+    language VARCHAR(50),
+    status ENUM('ACCEPTED','WRONG_ANSWER','TLE','RUNTIME_ERROR') NOT NULL,
+    execution_time INT,
+    memory_used INT,
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (problem_id) REFERENCES problems(id)
+);
+
+
+user_problem_status (Fast Dashboard Stats)
+Tracks latest status per problem per user.
+
+CREATE TABLE user_problem_status (
+    user_id BIGINT,
+    problem_id BIGINT,
+    status ENUM('SOLVED','ATTEMPTED','NOT_TRIED'),
+    last_submission TIMESTAMP,
+
+    PRIMARY KEY (user_id, problem_id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (problem_id) REFERENCES problems(id)
+);
+
