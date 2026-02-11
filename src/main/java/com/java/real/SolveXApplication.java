@@ -31,4 +31,9 @@ public class SolveXApplication {
 		return "dog is barking";
 		
 	}
+	
+	@GetMapping("/test")
+	public String test() {
+		return "testing is going on";
+	}
 }
