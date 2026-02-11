@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SolveXApplication {
 
 	public static void main(String[] args) {
+		System.out.println("This is Projects ");
 		SpringApplication.run(SolveXApplication.class, args);
 	}
 
