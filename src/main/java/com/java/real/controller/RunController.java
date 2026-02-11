@@ -24,7 +24,7 @@ public class RunController {
     @PostMapping("/run")
     public String runCode(@RequestBody Map<String, String> payload) {
         String source = payload.get("source");
-        String className = "Main";
+        String className = "Main"; 
         Path tempDir = null;
 
         try {
