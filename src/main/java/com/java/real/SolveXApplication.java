@@ -25,4 +25,10 @@ public class SolveXApplication {
 		return "This is the new One ";
 	}
 
+	
+	@GetMapping("/dog")
+	public String barking() {
+		return "dog is barking";
+		
+	}
 }
