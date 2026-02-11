@@ -19,5 +19,10 @@ public class SolveXApplication {
 	public String helloEndPoint() {
 		return "The project is started called as SolveX";
 	}
+	
+	@GetMapping("/hi")
+	public String hiEndpoint() {
+		return "This is the new One ";
+	}
 
 }
