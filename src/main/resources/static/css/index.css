@@ -1,0 +1,129 @@
+@charset "UTF-8";
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
+    body { background: #f5f7fb; color: #333; }
+
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      background: #0f172a;
+    }
+    nav .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #38bdf8;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: #e5e7eb;
+      font-size: 16px;
+    }
+    nav ul li a:hover { color: #38bdf8; }
+    .auth-buttons a {
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 1px solid #38bdf8;
+      color: #38bdf8;
+      margin-left: 10px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .auth-buttons a.signup {
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: bold;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 60px 40px;
+      gap: 40px;
+    }
+    .hero-text {
+      max-width: 50%;
+    }
+    .hero-text h1 {
+      font-size: 42px;
+      margin-bottom: 20px;
+      color: #0f172a;
+    }
+    .hero-text p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+      color: #475569;
+    }
+    .hero-text button {
+      padding: 12px 24px;
+      background: #38bdf8;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .hero-image img {
+      max-width: 450px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    /* Features */
+    .features {
+      padding: 60px 40px;
+      background: #ffffff;
+    }
+    .features h2 {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 40px;
+      color: #0f172a;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    .card {
+      background: #f8fafc;
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+    .card img {
+      width: 80px;
+      margin-bottom: 15px;
+    }
+    .card h3 {
+      margin-bottom: 10px;
+      color: #0f172a;
+    }
+    .card p {
+      font-size: 15px;
+      color: #475569;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #0f172a;
+      color: #cbd5f5;
+      margin-top: 40px;
+    }
+
+    
+    
+    
