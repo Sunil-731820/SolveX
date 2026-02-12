@@ -1,4 +1,4 @@
-<%@page import="com.example.UserAuthentocation.entity.Problem"%>
+<%@page import="com.java.real.entity.Problem"%>
 <%@page import="java.util.List"%>
 <%
     List<Problem> problems = (List<Problem>) request.getAttribute("problems");
