@@ -15,18 +15,72 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
 
+  build:
     runs-on: ubuntu-latest
+    # Expose secrets as environment variables
+    env:
+      SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL }}
+      SPRING_DATASOURCE_USERNAME: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
+      SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      - uses: actions/checkout@v4
 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build with Maven
+        run: mvn clean install -Dmaven.test.skip=true
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker image
+        run: docker build -t sunilya96/solvex:latest .
+
+      - name: Publish image to Docker Hub
+        run: docker push sunilya96/solvex:latest
+
+
+  deploy:
+    needs: build
+    runs-on: [self-hosted, linux, x64, aws_ec2]
+
+    steps:
+
+      - name: Pull image from Docker Hub
+        run: docker pull sunilya96/solvex:latest
+
+      - name: Remove all <none> images
+        run: docker image prune -f
+
+      - name: Stop & remove old container if exists
+        run: |
+          docker ps -a --format '{{.Names}}' | grep -w springboot-app >/dev/null 2>&1 && \
+            docker stop springboot-app || true
+          docker ps -a --format '{{.Names}}' | grep -w springboot-app >/dev/null 2>&1 && \
+            docker rm springboot-app || true
+
+      - name: Ensure Docker network exists
+        run: |
+          docker network inspect mynetwork >/dev/null 2>&1 || \
+          docker network create mynetwork
+
+      
+      - name: Run new container
+        run: |
+          docker run -d \
+          --name springboot-app \
+          --network mynetwork \
+          -p 8081:8080 \
+          -e SPRING_DATASOURCE_URL="${{ secrets.SPRING_DATASOURCE_URL }}" \
+          -e SPRING_DATASOURCE_USERNAME="${{ secrets.SPRING_DATASOURCE_USERNAME }}" \
+          -e SPRING_DATASOURCE_PASSWORD='${{ secrets.SPRING_DATASOURCE_PASSWORD }}' \
+          -e MONGO_URI="${{ secrets.MONGO_URI }}" \
+          -e JAVA_OPTS="-Xms128m -Xmx256m" \
+          sunilya96/solvex:latest
