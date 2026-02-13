@@ -5,8 +5,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+/*import org.apache.log4j.Logger;
+import org.apache.log4j.spi.LoggerFactory;
+*/import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,15 +39,15 @@ public class AuthController {
 	@Autowired
 	EmailService emailService;
 	
-    private static final Logger log = Logger.getLogger(AuthController.class);
+    //private static final Logger log = Logger.getLogger(AuthController.class);
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(AuthController.class);
 
 	@PostMapping("/signup")
 	public String signup(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
 		//log.debug("I am calling Signup page Methods :=");
-		log.warn("Checking warn ");
-		log.info("Checking info");
-		log.fatal("Checkig fatal");
-
+		/*
+		 * log.warn("Checking warn "); log.info("Checking info");
+		 */		log.debug("Calling the Create Sign Up methods :");
 	    
 		 if (result.hasErrors()) {
 	            // Get the first validation error
