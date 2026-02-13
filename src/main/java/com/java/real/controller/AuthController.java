@@ -41,6 +41,11 @@ public class AuthController {
 
 	@PostMapping("/signup")
 	public String signup(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
+		//log.debug("I am calling Signup page Methods :=");
+		log.warn("Checking warn ");
+		log.info("Checking info");
+		log.fatal("Checkig fatal");
+
 	    
 		 if (result.hasErrors()) {
 	            // Get the first validation error
@@ -54,7 +59,6 @@ public class AuthController {
 		        log.info("this is for Testing");
 	            return "signup";
 	        }
-		
 		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 		user.setEnabled(false); // ❗ disable until email verified
 	    userRepository.save(user);
