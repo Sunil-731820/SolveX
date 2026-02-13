@@ -61,6 +61,10 @@ public class AuthController {
 		        log.info("this is for Testing");
 	            return "signup";
 	        }
+		 if(userRepository.findByEmail(user.getEmail()).isPresent()) {
+			 model.addAttribute("errorMessage", "Email already registered");
+			 return "signup";
+		 }
 		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 		user.setEnabled(false); // ❗ disable until email verified
 	    userRepository.save(user);
@@ -78,7 +82,7 @@ public class AuthController {
 	    emailService.sendVerificationEmail(user.getEmail(), link);
 
 	    model.addAttribute("successMessage",
-	            "Verification email sent. Please check your inbox.");
+	            "Registration is Done, Verification email sent. Please check your inbox.");
 	    
 	    return "login";
 	}

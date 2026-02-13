@@ -8,6 +8,18 @@
 
 </head>
 <body>
+
+ <!-- Error message -->
+    <div style="color:red; font-weight:bold;">
+        ${errorMessage}
+    </div>
+
+    <!-- Success message -->
+    <div style="color:green; font-weight:bold;">
+        ${successMessage}
+    </div>
+
+
 	<div class="signup-container">
 		<div class="signup-header">
 			<h2>CodeBloom</h2>
@@ -41,12 +53,20 @@
 
 			<%
     List<String> errorMessages = (List<String>) request.getAttribute("errorMessages");
+	List<String> errorMessage = (List<String>) request.getAttribute("errorMessage");
     if (errorMessages != null) {
         for(String msg : errorMessages) {
 %>
 			<div style="color: red;"><%= msg %></div>
 			<%
         }
+    }else if(errorMessage !=null){
+    	for(String msg1 : errorMessage){
+ %>
+ 		<div style="color: red;"><%= msg1 %></div>
+ 		<%   		
+    	}
+    	
     }
 %>
 
