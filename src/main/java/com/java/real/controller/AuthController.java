@@ -9,12 +9,15 @@ import org.slf4j.Logger;
 /*import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggerFactory;
 */import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.java.real.entity.User;
 import com.java.real.entity.VerificationToken;
@@ -41,6 +44,9 @@ public class AuthController {
 	
     //private static final Logger log = Logger.getLogger(AuthController.class);
 	private static final Logger log = org.slf4j.LoggerFactory.getLogger(AuthController.class);
+	
+	@Value("${app.verification.base-url}")
+    private String baseUrl;
 
 	@PostMapping("/signup")
 	public String signup(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
@@ -78,7 +84,10 @@ public class AuthController {
 	    verificationTokenRepository.save(verificationToken);
 
 	    // send email
-	    String link = "http://localhost:8080/verify-email?token=" + token;
+//	    String link = "http://localhost:8080/verify-email?token=" + token; 
+	    // Added for real time email verifications parts after Signup So that user can verify email
+	 // build link dynamically from env variable 
+	    String link = baseUrl + "/verify-email?token=" + token;
 	    emailService.sendVerificationEmail(user.getEmail(), link);
 
 	    model.addAttribute("successMessage",
@@ -87,6 +96,27 @@ public class AuthController {
 	    return "login";
 	}
 
+//	Email Verifications code started here 
+	@GetMapping("/verify-email")
+	public String verifyEmail(@RequestParam("token") String token, Model model) {
+		System.out.println("Calling the verify Email  methods :");
+	    VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+
+	    if (verificationToken == null || verificationToken.getExpiryTime().isBefore(LocalDateTime.now())) {
+	        model.addAttribute("errorMessage", "Invalid or expired verification link.");
+	        return "signup"; 
+	    }
+
+	    User user = verificationToken.getUser();
+	    System.out.println("the value of the get Enabled is :="+user.isEnabled());
+	    user.setEnabled(true); 
+	    userRepository.save(user);
+
+	    model.addAttribute("successMessage", "Your account has been verified successfully!");
+	    return "login"; // redirect to login page
+	}
+
+	
 	@PostMapping("/login")
 	public String login(String email, String password,Model model, HttpSession session) {
 		System.out.println("Calling the Login Methods:=");
