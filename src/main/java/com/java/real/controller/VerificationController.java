@@ -41,7 +41,7 @@ public class VerificationController {
      * Example URL:
      * http://localhost:8080/verify-email?token=abc123
      */
-    @GetMapping("/verify-email")
+    @GetMapping("/verify-email1")
     public String verifyEmail(@RequestParam("token") String token,
                               Model model) {
 
