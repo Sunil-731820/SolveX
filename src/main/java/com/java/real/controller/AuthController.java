@@ -99,7 +99,7 @@ public class AuthController {
 //	Email Verifications code started here 
 	@GetMapping("/verify-email")
 	public String verifyEmail(@RequestParam("token") String token, Model model) {
-		System.out.println("Calling the verify Email  methods :");
+		System.out.println("Calling the verify Email  methods :"); 
 	    VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
 
 	    if (verificationToken == null || verificationToken.getExpiryTime().isBefore(LocalDateTime.now())) {
