@@ -37,6 +37,7 @@ public class Problem {
 	}
 
 	public String getId() {
+		system.out.println("Getting ID: " + id);
 		return id;
 	}
 
